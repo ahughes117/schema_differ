@@ -4,3 +4,4 @@
 *.jar
 *.war
 *.ear
+/schema_differ/nbproject/private/
