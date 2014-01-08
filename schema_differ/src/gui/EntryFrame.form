@@ -311,13 +311,15 @@
                       <Component id="uri2Lbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="user2Lbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="user2F" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="check2Btn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="save2Btn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="del2Btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="user2Lbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="user2F" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -428,6 +430,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Compare"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="compareBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -1,18 +1,59 @@
-
 package gui;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sql.Connector;
 
 /**
  * The ResultFrame, containing the results of the diff
- * 
+ *
  * @author ahughes
  */
 public class ResultFrame extends GUI {
 
     /**
-     * Creates new form ResultFrame
+     * Constructor
+     * 
+     * @param aPreviousFrame
+     * @param aConnector1
+     * @param aConnector2 
      */
-    public ResultFrame() {
+    public ResultFrame(GUI aPreviousFrame, Connector aConnector1, Connector aConnector2) {
+        pFrame = aPreviousFrame;
+        c1 = aConnector1;
+        c2 = aConnector2;
+
         initComponents();
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                back();
+            }
+        });
+        loadResults();
+        
+        super.setFrameLocationCenter();
+        this.setVisible(true);
+    }
+    
+    private void loadResults() {
+        
+    }
+
+    /**
+     * Closes the connections and heads back to EntryFrame
+     */
+    private void back() {
+        try {
+            c1.closeConnection();
+            c2.closeConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(ResultFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+        pFrame.setVisible(true);
     }
 
     /**

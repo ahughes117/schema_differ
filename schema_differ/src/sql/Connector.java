@@ -9,6 +9,7 @@ package sql;
  * @author Alex Hughes
  */
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,7 +135,21 @@ public class Connector {
     public void setSchema(String aSchema) throws SQLException {
         connection.setSchema(aSchema);
     }
-
+    
+    /**
+     * Returns the database's metadata
+     * 
+     * @return
+     * @throws SQLException
+     */
+    public DatabaseMetaData getMetaData() throws SQLException {
+        return connection.getMetaData();
+    }
+    
+    public String getSchema() throws SQLException {
+        return connection.getSchema();
+    }
+    
     private void printInfo() {
         System.out.println("Database Management...");
         System.out.println("Succesfully connected to: " + credentials.getUri());

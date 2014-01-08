@@ -1,5 +1,6 @@
 package gui;
 
+import datalayer.SchemaDL;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -124,6 +125,20 @@ public class EntryFrame extends GUI {
         if (initialisation) {
             uri1Cmb.setSelectedIndex(-1);
             uri2Cmb.setSelectedIndex(-1);
+        }
+    }
+
+    private void compare() {
+        try {
+            Credentials cre = parseCredentials(1);
+            c1 = new Connector(cre);
+
+            SchemaDL schDL = new SchemaDL(c1);
+            schDL.buildSchema();
+        } catch (SQLException ex) {
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -333,13 +348,14 @@ public class EntryFrame extends GUI {
                     .addComponent(uri2Cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(uri2Lbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(schema2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(user2Lbl)
-                    .addComponent(user2F, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(schema2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(schema2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(check2Btn)
                         .addComponent(save2Btn)
-                        .addComponent(del2Btn)))
+                        .addComponent(del2Btn))
+                    .addGroup(schema2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(user2Lbl)
+                        .addComponent(user2F, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(schema2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pass2Lbl)
@@ -357,6 +373,11 @@ public class EntryFrame extends GUI {
         });
 
         compareBtn.setText("Compare");
+        compareBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnPanelLayout = new javax.swing.GroupLayout(btnPanel);
         btnPanel.setLayout(btnPanelLayout);
@@ -463,20 +484,25 @@ public class EntryFrame extends GUI {
     }//GEN-LAST:event_save1BtnActionPerformed
 
     private void uri1CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri1CmbItemStateChanged
-        if (uri1Cmb.getSelectedItem() != evt.getItem() && uri1Cmb.getSelectedItem() != null) {
+        if (uri1Cmb.getSelectedItem() != null) {
             String uri = (String) uri1Cmb.getSelectedItem();
             Credentials cre = lib.searchCredentials(uri);
             user1F.setText(cre.getUser());
         }
+
     }//GEN-LAST:event_uri1CmbItemStateChanged
 
     private void uri2CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri2CmbItemStateChanged
-        if (uri2Cmb.getSelectedItem() != evt.getItem()&& uri2Cmb.getSelectedItem() != null) {
+        if (uri2Cmb.getSelectedItem() != null) {
             String uri = (String) uri2Cmb.getSelectedItem();
             Credentials cre = lib.searchCredentials(uri);
             user2F.setText(cre.getUser());
         }
     }//GEN-LAST:event_uri2CmbItemStateChanged
+
+    private void compareBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareBtnActionPerformed
+        compare();
+    }//GEN-LAST:event_compareBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -487,11 +513,7 @@ public class EntryFrame extends GUI {
     private javax.swing.JButton del1Btn;
     private javax.swing.JButton del2Btn;
     private javax.swing.JPanel footerPanel;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -501,10 +523,7 @@ public class EntryFrame extends GUI {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPasswordField pass1F;
     private javax.swing.JLabel pass1Lbl;
     private javax.swing.JPasswordField pass2F;
