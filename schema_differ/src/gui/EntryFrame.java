@@ -3,10 +3,12 @@ package gui;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.logging.*;
 import schema_differ.Library;
+import schema_differ.MesDial;
+import sql.*;
 
 /**
  * The Entry Frame where the user inserts the credentials for the databases he
@@ -20,19 +22,19 @@ public class EntryFrame extends GUI {
 
     public EntryFrame(Library aLibrary) {
         lib = aLibrary;
-        
+
         initComponents();
         this.addWindowListener(new WindowAdapter() {
-            @Override
             public void windowClosing(WindowEvent e) {
                 exit();
             }
         });
+        loadCombos(true);
 
         super.setFrameLocationCenter();
         this.setVisible(true);
     }
-    
+
     /**
      * Closes all connections, saves library and exits
      */
@@ -47,6 +49,81 @@ public class EntryFrame extends GUI {
             Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             System.exit(0);
+        }
+    }
+
+    /**
+     * Parses and returns the credentials of a Connection
+     *
+     * @param aConnection
+     * @return
+     */
+    private Credentials parseCredentials(int aConnection) {
+        Credentials cre = null;
+        String password, user, uri;
+
+        //preprocessing and fetching the data
+        if (aConnection == 1) {
+            password = new String(pass1F.getPassword());
+            user = user1F.getText();
+            uri = (String) uri1Cmb.getSelectedItem();
+        } else {
+            password = new String(pass2F.getPassword());
+            user = user2F.getText();
+            uri = (String) uri2Cmb.getSelectedItem();
+        }
+        //creating the credentials
+        cre = new Credentials(uri, user, password);
+        return cre;
+    }
+
+    /**
+     * Checks the validity of a pair of credentials
+     *
+     * @param aConnection
+     */
+    private void checkConnection(int aConnection) {
+        Credentials cre = null;
+        Connector c;
+
+        try {
+            if (aConnection == 1) {
+                cre = parseCredentials(1);
+            } else if (aConnection == 2) {
+                cre = parseCredentials(2);
+            }
+            //opening and closing a connection
+            c = new Connector(cre);
+            c.closeConnection();
+            MesDial.conSuccess(this);
+        } catch (SQLException ex) {
+            MesDial.conError(this);
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            MesDial.programError(this);
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Loads the two combo boxes with the uris
+     */
+    private void loadCombos(boolean initialisation) {
+        //cleaning combos first
+        uri1Cmb.removeAllItems();
+        uri2Cmb.removeAllItems();
+
+        //fetching the objects and filling the combos
+        ArrayList<Credentials> credentials = lib.getCredentials();
+        for (Credentials c : credentials) {
+            uri1Cmb.addItem(c.getUri());
+            uri2Cmb.addItem(c.getUri());
+        }
+
+        //if this is the first time the combo boxes are initialised, clean the indexes
+        if (initialisation) {
+            uri1Cmb.setSelectedIndex(-1);
+            uri2Cmb.setSelectedIndex(-1);
         }
     }
 
@@ -95,11 +172,16 @@ public class EntryFrame extends GUI {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         schema1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("First Schema"));
 
         uri1Cmb.setEditable(true);
+        uri1Cmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                uri1CmbItemStateChanged(evt);
+            }
+        });
 
         uri1Lbl.setText("URI:");
 
@@ -108,8 +190,18 @@ public class EntryFrame extends GUI {
         pass1Lbl.setText("Password:");
 
         check1Btn.setText("Check");
+        check1Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check1BtnActionPerformed(evt);
+            }
+        });
 
         save1Btn.setText("Save");
+        save1Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save1BtnActionPerformed(evt);
+            }
+        });
 
         del1Btn.setText("Delete");
 
@@ -196,6 +288,11 @@ public class EntryFrame extends GUI {
         save2Btn.setText("Save");
 
         check2Btn.setText("Check");
+        check2Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check2BtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout schema2PanelLayout = new javax.swing.GroupLayout(schema2Panel);
         schema2Panel.setLayout(schema2PanelLayout);
@@ -248,6 +345,11 @@ public class EntryFrame extends GUI {
         btnPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         quitBtn.setText("<Quit");
+        quitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitBtnActionPerformed(evt);
+            }
+        });
 
         compareBtn.setText("Compare");
 
@@ -330,6 +432,36 @@ public class EntryFrame extends GUI {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void check1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check1BtnActionPerformed
+        checkConnection(1);
+    }//GEN-LAST:event_check1BtnActionPerformed
+
+    private void check2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check2BtnActionPerformed
+        checkConnection(2);
+    }//GEN-LAST:event_check2BtnActionPerformed
+
+    private void quitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBtnActionPerformed
+        exit();
+    }//GEN-LAST:event_quitBtnActionPerformed
+
+    private void save1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save1BtnActionPerformed
+        lib.addCredentials(parseCredentials(1));
+        try {
+            Library.saveLibrary(lib);
+            loadCombos(false);
+            MesDial.saveSuccess(this);
+        } catch (IOException ex) {
+            MesDial.conError(this);
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_save1BtnActionPerformed
+
+    private void uri1CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri1CmbItemStateChanged
+        if (uri1Cmb.getSelectedItem() != evt.getItem()) {
+            String uri = (String) uri1Cmb.getSelectedItem();
+        }
+    }//GEN-LAST:event_uri1CmbItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

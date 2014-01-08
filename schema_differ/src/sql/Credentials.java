@@ -1,31 +1,58 @@
-
 package sql;
 
 import java.io.Serializable;
 
 /**
  * The Credentials Entity Class
- * 
+ *
  * @author ahughes
  */
-public class Credentials implements Serializable {
-    
-    private String url;
+public class Credentials implements Serializable, Comparable {
+
+    private String uri;
     private String user;
     private volatile String pass;
-    
-    public Credentials(String aUrl, String aUser, String aPass) {
-        url = aUrl;
+
+    public Credentials(String aUri, String aUser, String aPass) {
+        uri = aUri;
         user = aUser;
         pass = aPass;
     }
 
-    public String getUrl() {
-        return url;
+    @Override
+    public String toString() {
+        return uri;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    @Override
+    public boolean equals(Object o) {
+        Credentials credE = (Credentials) o;
+
+        //comparing agains URI and username at the same time
+        if (credE.getUri().equals(this.getUri())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Credentials credE = (Credentials) o;
+
+        //comparing against the URI as well as the username, case sensitively.
+        int result;
+        result = credE.getUri().compareTo(this.getUri());
+        
+        return result;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUrl(String uri) {
+        this.uri = uri;
     }
 
     public String getUser() {

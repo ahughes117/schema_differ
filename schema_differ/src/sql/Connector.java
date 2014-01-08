@@ -44,7 +44,7 @@ public class Connector {
         connProperties.put(MYSQL_MAX_RECONNECTS, "2");
         connProperties.put("characterEncoding", "utf8");
 
-        String conString = credentials.getUrl();
+        String conString = credentials.getUri();
 
         connection = DriverManager.getConnection(conString, connProperties);
 
@@ -137,7 +137,7 @@ public class Connector {
 
     private void printInfo() {
         System.out.println("Database Management...");
-        System.out.println("Succesfully connected to: " + credentials.getUrl());
+        System.out.println("Succesfully connected to: " + credentials.getUri());
         if (AUTOCOMMIT) {
             System.out.println("AUTOCOMMIT IS ON");
         } else {

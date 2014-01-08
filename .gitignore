@@ -5,3 +5,4 @@
 *.war
 *.ear
 /schema_differ/nbproject/private/
+/schema_differ/build/

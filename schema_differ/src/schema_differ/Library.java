@@ -21,6 +21,12 @@ public class Library implements Serializable {
         credentialsL = new ArrayList();
     }
 
+    public void addCredentials(Credentials aCredentials) {
+        if (!credentialsL.contains(aCredentials)) {
+            credentialsL.add(aCredentials);
+        }
+    }
+
     /**
      * Saves a Library Object along with the credentials ArrayList it contains
      *

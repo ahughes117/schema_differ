@@ -54,7 +54,7 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -179,6 +179,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="uri1CmbItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="uri1Lbl">
           <Properties>
@@ -203,11 +206,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Check"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="check1BtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="save1Btn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="save1BtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="del1Btn">
           <Properties>
@@ -363,6 +372,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Check"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="check2BtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -405,6 +417,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;Quit"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="quitBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="compareBtn">
           <Properties>
