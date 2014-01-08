@@ -27,15 +27,15 @@ public class SchemaDL {
     public Schema buildSchema() throws SQLException {
         DatabaseMetaData meta = c.getMetaData();
         ResultSet tableR = meta.getTables(null, null, "%", null);
-        
-        while(tableR.next()) {
+
+        while (tableR.next()) {
             System.out.println(tableR.getString(3));
-            
+
             ResultSet columnR = c.sendQuery("SELECT * FROM " + tableR.getString(3) + " LIMIT 0");
             ResultSetMetaData rsMeta = columnR.getMetaData();
             int columnN = rsMeta.getColumnCount();
-            for(int i=1; i<=columnN; i++) {
-                System.out.println("  " + rsMeta.getColumnName(i)+ " - " + rsMeta.getColumnTypeName(i));
+            for (int i = 1; i <= columnN; i++) {
+                System.out.println("  " + rsMeta.getColumnName(i) + " - " + rsMeta.getColumnTypeName(i) + " " + rsMeta.getPrecision(i) + " " + rsMeta.getScale(i));
             }
         }
 
