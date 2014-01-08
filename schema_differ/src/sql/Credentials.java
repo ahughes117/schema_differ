@@ -13,10 +13,26 @@ public class Credentials implements Serializable, Comparable {
     private String user;
     private volatile String pass;
 
+    /**
+     * Full Constructor
+     * 
+     * @param aUri
+     * @param aUser
+     * @param aPass 
+     */
     public Credentials(String aUri, String aUser, String aPass) {
         uri = aUri;
         user = aUser;
         pass = aPass;
+    }
+    
+    /**
+     * Search-oriented constructor
+     * 
+     * @param aUri 
+     */
+    public Credentials(String aUri) {
+        uri = aUri;
     }
 
     @Override

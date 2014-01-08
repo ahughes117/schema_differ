@@ -276,6 +276,11 @@ public class EntryFrame extends GUI {
         schema2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Second Schema"));
 
         uri2Cmb.setEditable(true);
+        uri2Cmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                uri2CmbItemStateChanged(evt);
+            }
+        });
 
         uri2Lbl.setText("URI:");
 
@@ -458,10 +463,20 @@ public class EntryFrame extends GUI {
     }//GEN-LAST:event_save1BtnActionPerformed
 
     private void uri1CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri1CmbItemStateChanged
-        if (uri1Cmb.getSelectedItem() != evt.getItem()) {
+        if (uri1Cmb.getSelectedItem() != evt.getItem() && uri1Cmb.getSelectedItem() != null) {
             String uri = (String) uri1Cmb.getSelectedItem();
+            Credentials cre = lib.searchCredentials(uri);
+            user1F.setText(cre.getUser());
         }
     }//GEN-LAST:event_uri1CmbItemStateChanged
+
+    private void uri2CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri2CmbItemStateChanged
+        if (uri2Cmb.getSelectedItem() != evt.getItem()&& uri2Cmb.getSelectedItem() != null) {
+            String uri = (String) uri2Cmb.getSelectedItem();
+            Credentials cre = lib.searchCredentials(uri);
+            user2F.setText(cre.getUser());
+        }
+    }//GEN-LAST:event_uri2CmbItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

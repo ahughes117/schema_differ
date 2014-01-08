@@ -28,6 +28,24 @@ public class Library implements Serializable {
     }
 
     /**
+     * Looks for a particular URI and returns full details (URI, user)
+     * Returns NULL if URI not found
+     * 
+     * @param aUri
+     * @return 
+     */
+    public Credentials searchCredentials(String aUri) {
+        int index = credentialsL.indexOf(new Credentials(aUri));
+
+        //if the URI was not found, return null
+        if (index == -1) {
+            return null;
+        } else {
+            return credentialsL.get(index);
+        }
+    }
+
+    /**
      * Saves a Library Object along with the credentials ArrayList it contains
      *
      * @param aLibrary
