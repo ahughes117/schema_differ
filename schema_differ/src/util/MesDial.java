@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package schema_differ;
+package util;
 
 import gui.GUI;
 import javax.swing.JOptionPane;

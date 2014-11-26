@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
-import schema_differ.Library;
-import schema_differ.MesDial;
+import util.Library;
+import util.MesDial;
 import sql.*;
 
 /**
