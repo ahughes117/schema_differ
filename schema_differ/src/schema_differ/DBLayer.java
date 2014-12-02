@@ -54,7 +54,7 @@ public class DBLayer {
         ArrayList<Table> tables2 = s2.getTables();
 
         //quickchecking whether the schemas contain the same tables
-        if (s1.getTables().containsAll(s2.getTables()) && s2.getTables().containsAll(s1.getTables())) {
+        if (tables1.containsAll(tables2) && tables2.containsAll(tables1)) {
             tables = true;
         } else {
             tables = false;
@@ -96,12 +96,14 @@ public class DBLayer {
                 if (!columns) {
                     for (Column col1 : t1.getColumns()) {
                         if (!t2.getColumns().contains(col1)) {
-                            diffs.add(new Diff("column", col1.getName(), "not found or different in schema2"));
+                            diffs.add(new Diff("column", t1.getName() + "/"
+                                    + col1.getName(), "not found or different in schema2"));
                         }
                     }
                     for (Column col2 : t2.getColumns()) {
                         if (!t1.getColumns().contains(col2)) {
-                            diffs.add(new Diff("column", col2.getName(), "not found or different in schema1"));
+                            diffs.add(new Diff("column", t2.getName() + "/"
+                                    + col2.getName(), "not found or different in schema1"));
                         }
                     }
                 }

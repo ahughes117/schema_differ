@@ -46,13 +46,8 @@ public class Table {
         //if the table names are different, return false immediately
         if (name != 0) {
             return false;
-        }
-
-        //if the table names are the same, compare the column lists
-        if (this.columns.containsAll(tab.getColumns()) && tab.getColumns().containsAll(this.columns)) {
-            return true;
         } else {
-            return false;
+            return true;
         }
     }
 

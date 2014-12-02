@@ -29,4 +29,9 @@ public class Diff {
     public String getExplanation() {
         return explanation;
     }
+
+    @Override
+    public String toString() {
+        return type + " - " + name + " " + explanation;
+    }
 }
