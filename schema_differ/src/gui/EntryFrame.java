@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
+import schema_differ.DBLayer;
+import sql.*;
 import util.Library;
 import util.MesDial;
-import sql.*;
 
 /**
  * The Entry Frame where the user inserts the credentials for the databases he
@@ -132,9 +133,8 @@ public class EntryFrame extends GUI {
         try {
             Credentials cre = parseCredentials(1);
             c1 = new Connector(cre);
+            DBLayer db = new DBLayer(c1, null);
 
-            SchemaDL schDL = new SchemaDL(c1);
-            schDL.buildSchema();
         } catch (SQLException ex) {
             Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

@@ -1,6 +1,8 @@
 package datalayer;
 
+import entities.Column;
 import entities.Schema;
+import entities.Table;
 import java.sql.*;
 import java.util.ArrayList;
 import sql.Connector;
@@ -12,7 +14,6 @@ import sql.Connector;
 public class SchemaDL {
 
     private Connector c;
-    private Schema schema;
 
     public SchemaDL(Connector aConnector) {
         c = aConnector;
@@ -25,32 +26,35 @@ public class SchemaDL {
      * @throws SQLException
      */
     public Schema buildSchema() throws SQLException {
+        ArrayList<Table> tables = new ArrayList();
+        ArrayList<Column> columns;
+        Table tab;
+
         DatabaseMetaData meta = c.getMetaData();
         ResultSet tableR = meta.getTables(null, null, "%", null);
 
         while (tableR.next()) {
-            System.out.println(tableR.getString(3));
+            //creating the table object and assigning a name to it
+            tab = new Table(tableR.getString(3));
 
-            ResultSet columnR = c.sendQuery("SELECT * FROM " + tableR.getString(3) + " LIMIT 0");
+            //creating a fresh column list object
+            columns = new ArrayList();
+
+            //fetching the column metadata 
+            ResultSet columnR = c.sendQuery("SELECT * FROM " + tab.getName() + " LIMIT 0");
             ResultSetMetaData rsMeta = columnR.getMetaData();
+
+            //iterating and populating the column ArrayList
             int columnN = rsMeta.getColumnCount();
             for (int i = 1; i <= columnN; i++) {
-                System.out.println("  " + rsMeta.getColumnName(i) + " - " + rsMeta.getColumnTypeName(i) + " " + rsMeta.getPrecision(i) + " " + rsMeta.getScale(i));
+                columns.add(new Column(rsMeta.getColumnName(i), rsMeta.getColumnTypeName(i), Integer.toString(rsMeta.getPrecision(i)), Integer.toString(rsMeta.getScale(i))));
             }
-        }
 
-        return schema;
+            //finally setting the ArrayList of columns and adding the table to the list
+            tab.setColumns(columns);
+            tables.add(tab);
+        }
+        return new Schema(tables);
     }
 
-    public ArrayList<String> getTables() throws SQLException {
-        ArrayList<String> tables = new ArrayList();
-
-        DatabaseMetaData meta = c.getMetaData();
-        ResultSet tableR = meta.getTables(null, null, "%", null);
-        while (tableR.next()) {
-            tables.add(tableR.getString(3));
-        }
-
-        return tables;
-    }
 }
