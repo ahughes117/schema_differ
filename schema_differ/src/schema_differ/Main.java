@@ -1,6 +1,7 @@
 
 package schema_differ;
 
+import util.Library;
 import gui.EntryFrame;
 import java.io.IOException;
 import java.util.logging.Level;

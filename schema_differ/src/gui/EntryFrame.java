@@ -1,15 +1,16 @@
 package gui;
 
-import datalayer.SchemaDL;
+import entities.Diff;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
-import schema_differ.Library;
-import schema_differ.MesDial;
+import schema_differ.DBLayer;
 import sql.*;
+import util.Library;
+import util.MesDial;
 
 /**
  * The Entry Frame where the user inserts the credentials for the databases he
@@ -130,11 +131,19 @@ public class EntryFrame extends GUI {
 
     private void compare() {
         try {
-            Credentials cre = parseCredentials(1);
-            c1 = new Connector(cre);
+            Credentials cre1 = parseCredentials(1);
+            c1 = new Connector(cre1);
 
-            SchemaDL schDL = new SchemaDL(c1);
-            schDL.buildSchema();
+            Credentials cre2 = parseCredentials(2);
+            c2 = new Connector(cre2);
+
+            DBLayer db = new DBLayer(c1, c2);
+            ArrayList<Diff> diffs = db.compare();
+            for (Diff d : diffs) {
+                System.out.println(d.toString());
+            }
+            c1.closeConnection();
+            c2.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
