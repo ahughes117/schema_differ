@@ -108,6 +108,42 @@ public class EntryFrame extends GUI {
     }
 
     /**
+     * Saves the credentials of a connection
+     *
+     * @param aConnection
+     */
+    private void saveCredentials(int aConnection) {
+
+        lib.addCredentials(parseCredentials(aConnection));
+        try {
+            Library.saveLibrary(lib);
+            loadCombos(false);
+            MesDial.fileSuccess(this);
+        } catch (IOException ex) {
+            MesDial.conError(this);
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Deletes the credentials of a connection
+     *
+     * @param aConnection
+     */
+    private void deleteCredentials(int aConnection) {
+
+        lib.deleteCredentials(parseCredentials(aConnection));
+        try {
+            Library.saveLibrary(lib);
+            loadCombos(false);
+            MesDial.fileSuccess(this);
+        } catch (IOException ex) {
+            MesDial.fileError(this);
+            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * Loads the two combo boxes with the uris
      */
     private void loadCombos(boolean initialisation) {
@@ -228,6 +264,11 @@ public class EntryFrame extends GUI {
         });
 
         del1Btn.setText("Delete");
+        del1Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del1BtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout schema1PanelLayout = new javax.swing.GroupLayout(schema1Panel);
         schema1Panel.setLayout(schema1PanelLayout);
@@ -313,8 +354,18 @@ public class EntryFrame extends GUI {
         pass2Lbl.setText("Password:");
 
         del2Btn.setText("Delete");
+        del2Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del2BtnActionPerformed(evt);
+            }
+        });
 
         save2Btn.setText("Save");
+        save2Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save2BtnActionPerformed(evt);
+            }
+        });
 
         check2Btn.setText("Check");
         check2Btn.addActionListener(new java.awt.event.ActionListener() {
@@ -481,37 +532,49 @@ public class EntryFrame extends GUI {
     }//GEN-LAST:event_quitBtnActionPerformed
 
     private void save1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save1BtnActionPerformed
-        lib.addCredentials(parseCredentials(1));
-        try {
-            Library.saveLibrary(lib);
-            loadCombos(false);
-            MesDial.saveSuccess(this);
-        } catch (IOException ex) {
-            MesDial.conError(this);
-            Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        saveCredentials(1);
     }//GEN-LAST:event_save1BtnActionPerformed
 
     private void uri1CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri1CmbItemStateChanged
-        if (uri1Cmb.getSelectedItem() != null) {
+        String eventItem = (String) evt.getItem();
+        String comboItem = (String) uri1Cmb.getSelectedItem();
+
+        if (comboItem != null && !comboItem.equals(eventItem)) {
             String uri = (String) uri1Cmb.getSelectedItem();
             Credentials cre = lib.searchCredentials(uri);
             user1F.setText(cre.getUser());
+            System.out.println("Combo1 state changed");
         }
 
     }//GEN-LAST:event_uri1CmbItemStateChanged
 
     private void uri2CmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_uri2CmbItemStateChanged
-        if (uri2Cmb.getSelectedItem() != null) {
+        String eventItem = (String) evt.getItem();
+        String comboItem = (String) uri2Cmb.getSelectedItem();
+
+        if (comboItem != null && !comboItem.equals(eventItem)) {
             String uri = (String) uri2Cmb.getSelectedItem();
             Credentials cre = lib.searchCredentials(uri);
             user2F.setText(cre.getUser());
+            System.out.println("Combo2 state changed");
         }
     }//GEN-LAST:event_uri2CmbItemStateChanged
 
     private void compareBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareBtnActionPerformed
         compare();
     }//GEN-LAST:event_compareBtnActionPerformed
+
+    private void save2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save2BtnActionPerformed
+        saveCredentials(2);
+    }//GEN-LAST:event_save2BtnActionPerformed
+
+    private void del1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del1BtnActionPerformed
+        deleteCredentials(1);
+    }//GEN-LAST:event_del1BtnActionPerformed
+
+    private void del2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del2BtnActionPerformed
+        deleteCredentials(2);
+    }//GEN-LAST:event_del2BtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

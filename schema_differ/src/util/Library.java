@@ -21,6 +21,11 @@ public class Library implements Serializable {
         credentialsL = new ArrayList();
     }
 
+    /**
+     * Adds a credential object to the list
+     *
+     * @param aCredentials
+     */
     public void addCredentials(Credentials aCredentials) {
         if (!credentialsL.contains(aCredentials)) {
             credentialsL.add(aCredentials);
@@ -28,11 +33,20 @@ public class Library implements Serializable {
     }
 
     /**
-     * Looks for a particular URI and returns full details (URI, user)
-     * Returns NULL if URI not found
+     * Removes a credential object from the list
      * 
+     * @param aCredentials 
+     */
+    public void deleteCredentials(Credentials aCredentials) {
+        credentialsL.remove(aCredentials);
+    }
+
+    /**
+     * Looks for a particular URI and returns full details (URI, user) Returns
+     * NULL if URI not found
+     *
      * @param aUri
-     * @return 
+     * @return
      */
     public Credentials searchCredentials(String aUri) {
         int index = credentialsL.indexOf(new Credentials(aUri));

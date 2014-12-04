@@ -222,6 +222,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="del1BtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -367,11 +370,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="del2BtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="save2Btn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="save2BtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="check2Btn">
           <Properties>
