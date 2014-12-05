@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JList;
 import schema_differ.DBLayer;
 import sql.Connector;
+import util.ListUtil;
 import util.MesDial;
 
 /**
@@ -50,6 +52,24 @@ public class ResultFrame extends GUI {
     private void loadResults() throws SQLException {
         DBLayer db = new DBLayer(c1, c2);
         ArrayList<Diff> diffs = db.compare();
+
+        fillResultList(firstSchemaL, diffs, 1);
+        fillResultList(secondSchemaL, diffs, 2);
+    }
+
+    private void fillResultList(JList aJList, ArrayList<Diff> aDiffL, int aSchema) {
+        ArrayList<Diff> items = new ArrayList();
+
+        //then iterating through the diff list and separating the results
+        for (Diff d : aDiffL) {
+            if (d.getSchema() == 1 && aSchema == 1) {
+                items.add(d);
+            } else if (d.getSchema() == 2 && aSchema == 2) {
+                items.add(d);
+            }
+        }
+
+        ListUtil.fillList(items, aJList);
     }
 
     /**
@@ -77,9 +97,9 @@ public class ResultFrame extends GUI {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        secondSchemaL = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        firstSchemaL = new javax.swing.JList();
         jPanel2 = new javax.swing.JPanel();
         backBtn = new javax.swing.JButton();
         refreshBtn = new javax.swing.JButton();
@@ -92,11 +112,11 @@ public class ResultFrame extends GUI {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Second Schema"));
 
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(secondSchemaL);
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("First Schema"));
 
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(firstSchemaL);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,9 +124,9 @@ public class ResultFrame extends GUI {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -122,6 +142,11 @@ public class ResultFrame extends GUI {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         backBtn.setText("<Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
 
         refreshBtn.setText("Refresh");
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +166,7 @@ public class ResultFrame extends GUI {
                 .addComponent(backBtn)
                 .addGap(173, 173, 173)
                 .addComponent(refreshBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(184, 184, 184)
                 .addComponent(exportBtn)
                 .addContainerGap())
         );
@@ -189,15 +214,19 @@ public class ResultFrame extends GUI {
         }
     }//GEN-LAST:event_refreshBtnActionPerformed
 
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        back();
+    }//GEN-LAST:event_backBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JButton exportBtn;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
+    private javax.swing.JList firstSchemaL;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton refreshBtn;
+    private javax.swing.JList secondSchemaL;
     // End of variables declaration//GEN-END:variables
 }

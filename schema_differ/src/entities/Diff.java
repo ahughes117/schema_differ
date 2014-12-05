@@ -10,12 +10,12 @@ public class Diff {
 
     public String type;
     public String name;
-    public String explanation;
+    public int schema;
 
-    public Diff(String type, String name, String explanation) {
+    public Diff(String type, String name, int schema) {
         this.type = type;
         this.name = name;
-        this.explanation = explanation;
+        this.schema = schema;
     }
 
     public String getType() {
@@ -26,12 +26,12 @@ public class Diff {
         return name;
     }
 
-    public String getExplanation() {
-        return explanation;
+    public int getSchema() {
+        return schema;
     }
 
     @Override
     public String toString() {
-        return type + " - " + name + " " + explanation;
+        return type + " - " + name;
     }
 }

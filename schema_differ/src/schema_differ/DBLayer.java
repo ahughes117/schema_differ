@@ -64,12 +64,12 @@ public class DBLayer {
         if (!tables) {
             for (Table t1 : tables1) {
                 if (!tables2.contains(t1)) {
-                    diffs.add(new Diff("table", t1.getName(), "not found in schema2"));
+                    diffs.add(new Diff("table", t1.getName(), 1));
                 }
             }
             for (Table t2 : tables2) {
                 if (!tables1.contains(t2)) {
-                    diffs.add(new Diff("table", t2.getName(), "not found in schema1"));
+                    diffs.add(new Diff("table", t2.getName(), 2));
                 }
             }
         }
@@ -97,13 +97,13 @@ public class DBLayer {
                     for (Column col1 : t1.getColumns()) {
                         if (!t2.getColumns().contains(col1)) {
                             diffs.add(new Diff("column", t1.getName() + "/"
-                                    + col1.getName(), "not found or different in schema2"));
+                                    + col1.getName(), 1));
                         }
                     }
                     for (Column col2 : t2.getColumns()) {
                         if (!t1.getColumns().contains(col2)) {
                             diffs.add(new Diff("column", t2.getName() + "/"
-                                    + col2.getName(), "not found or different in schema1"));
+                                    + col2.getName(), 2));
                         }
                     }
                 }
