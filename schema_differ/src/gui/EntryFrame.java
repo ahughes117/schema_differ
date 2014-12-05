@@ -173,13 +173,8 @@ public class EntryFrame extends GUI {
             Credentials cre2 = parseCredentials(2);
             c2 = new Connector(cre2);
 
-            DBLayer db = new DBLayer(c1, c2);
-            ArrayList<Diff> diffs = db.compare();
-            for (Diff d : diffs) {
-                System.out.println(d.toString());
-            }
-            c1.closeConnection();
-            c2.closeConnection();
+            new ResultFrame(this, c1, c2);
+            this.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(EntryFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
