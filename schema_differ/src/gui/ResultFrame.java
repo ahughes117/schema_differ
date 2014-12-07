@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JList;
 import schema_differ.DBLayer;
 import sql.Connector;
-import util.ListUtil;
+import util.DifferUtils;
 import util.MesDial;
 
 /**
@@ -69,7 +69,7 @@ public class ResultFrame extends GUI {
             }
         }
 
-        ListUtil.fillList(items, aJList);
+        DifferUtils.fillList(items, aJList);
     }
 
     /**

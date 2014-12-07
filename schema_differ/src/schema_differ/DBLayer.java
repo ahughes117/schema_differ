@@ -5,6 +5,7 @@ import entities.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import sql.Connector;
+import util.DifferUtils;
 
 /**
  * The DB Layer is responsible for all the processing
@@ -111,6 +112,63 @@ public class DBLayer {
         }
 
         return diffs;
+    }
+
+    /**
+     * Prints a report for the result of the diff
+     *
+     * @param aDiffL
+     * @throws Exception
+     */
+    public void printReport(ArrayList<Diff> aDiffL) throws Exception {
+        ArrayList<Diff> firstL, secondL;
+        String report;
+        String newL = System.getProperty("line.separator");
+
+        //separating the diffs depending on their schema
+        firstL = new ArrayList();
+        secondL = new ArrayList();
+        for (Diff d : aDiffL) {
+            if (d.getSchema() == 1) {
+                firstL.add(d);
+            } else if (d.getSchema() == 2) {
+                secondL.add(d);
+            } else {
+                throw new Exception("Invalid Schema number detected");
+            }
+        }
+
+        //title of the report
+        report = "SchemaDiffer Report" + newL + newL;
+
+        //first list results
+        if (!firstL.isEmpty()) {
+            report += "Elements existing in the first schema ONLY: " + newL + newL;
+            for (Diff d : firstL) {
+                report += d.toString() + newL;
+            }
+            report += newL + "--------" + newL + newL;
+        } else {
+            report += "No Elements" + newL;
+        }
+
+        //second list results
+        if (!secondL.isEmpty()) {
+            DifferUtils.writeFile(report, "report.txt");
+            report += "Elements existing in the second schema ONLY: " + newL + newL;
+            for (Diff d : secondL) {
+                report += d.toString() + newL;
+            }
+            report += newL + "--------" + newL + newL;
+        } else {
+            report += "No Elements" + newL + newL;
+        }
+
+        report += "End of Report" + newL;
+        report += "Brought to you by Alex Hughes <ahughes@ahughes.org> || github.com/ahughes117/schema_differ" + newL;
+
+        //finally writing the file
+        DifferUtils.writeFile(report, "report.txt");
     }
 
 }

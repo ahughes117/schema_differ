@@ -1,15 +1,19 @@
 package util;
 
 import entities.Diff;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import javax.swing.JList;
 
 /**
- * JList Utilities
+ * Utilities
  *
  * @author ahughes
  */
-public class ListUtil {
+public class DifferUtils {
 
     /**
      * Receives a Diff List and a JList and populates the latter with the first.
@@ -34,5 +38,20 @@ public class ListUtil {
         //finally removing and then adding the items to the list
         aList.removeAll();
         aList.setListData(itemArray);
+    }
+
+    /**
+     * This function takes a String with some content and a String which is the
+     * filename, writes the content to the file using UTF-8 encoding and finally
+     * closes the file.
+     *
+     * @param aContent
+     * @param aFileName
+     * @throws IOException
+     */
+    public static void writeFile(String aContent, String aFileName) throws IOException {
+        BufferedWriter fr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFileName), "UTF8"));
+        fr.write(aContent);
+        fr.close();
     }
 }
