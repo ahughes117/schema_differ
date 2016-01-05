@@ -41,7 +41,7 @@ public class SchemaDL {
             columns = new ArrayList();
 
             //fetching the column metadata 
-            ResultSet columnR = c.sendQuery("SELECT * FROM " + tab.getName() + " LIMIT 0");
+            ResultSet columnR = c.sendQuery("SELECT * FROM `" + tab.getName() + "` LIMIT 0");
             ResultSetMetaData rsMeta = columnR.getMetaData();
 
             //iterating and populating the column ArrayList
