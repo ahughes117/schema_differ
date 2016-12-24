@@ -34,3 +34,7 @@ I don't know where the report will be generated then, you are on your own. Prefe
 As I am using a linux bash shell, and I've got a sample bash script included for this reason. Probably Apple users can use it as well.
 
 I am sure that you can work your way around with Windows batch files as well, but I can't be bothered to write one.
+
+=============
+
+PS: TODO: compare indexes, foreign keys and all of that as well. Normally I don't index my staging database like the production one because there is no point and you can't fake the load properly. BUT, I do understand that not everyone is me and also some times it can come handy in non full database migrations, so depending on my free time, I will write functionality for it.
