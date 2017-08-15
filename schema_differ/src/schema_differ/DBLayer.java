@@ -48,7 +48,7 @@ public class DBLayer {
      */
     public ArrayList<Diff> compare() throws SQLException {
         diffs = new ArrayList();
-        boolean tables, columns;
+        boolean tables, columns, foreignKeys;
 
         //first fetching the tables
         ArrayList<Table> tables1 = s1.getTables();
@@ -75,7 +75,7 @@ public class DBLayer {
             }
         }
 
-        //checking the columns of the tables
+        //checking the columns and foreign keys of the tables
         int t2index;
         Table t2;
         for (Table t1 : tables1) {
@@ -105,6 +105,29 @@ public class DBLayer {
                         if (!t1.getColumns().contains(col2)) {
                             diffs.add(new Diff("column", t2.getName() + "/"
                                     + col2.getName(), 2));
+                        }
+                    }
+                }
+
+                //quickchecking whether the table contains the same foreign keys
+                if (t1.getForeignKeys().containsAll(t2.getForeignKeys()) && t2.getForeignKeys().containsAll(t1.getForeignKeys())) {
+                    foreignKeys = true;
+                } else {
+                    foreignKeys = false;
+                }
+
+                //if the foreign keys are not the same, creating a report
+                if (!foreignKeys) {
+                    for (ForeignKey fk1 : t1.getForeignKeys()) {
+                        if (!t2.getForeignKeys().contains(fk1)) {
+                            diffs.add(new Diff("foreign_key", fk1.getTableName() + "/"
+                                    + fk1.getColumnName() + " || " + fk1.getForeignTableName() + "/" + fk1.getForeignColumnName(), 1));
+                        }
+                    }
+                    for (ForeignKey fk2 : t2.getForeignKeys()) {
+                        if (!t1.getForeignKeys().contains(fk2)) {
+                            diffs.add(new Diff("foreign_key", fk2.getTableName() + "/"
+                                    + fk2.getColumnName() + " || " + fk2.getForeignTableName() + "/" + fk2.getForeignColumnName(), 2));
                         }
                     }
                 }

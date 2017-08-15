@@ -11,10 +11,12 @@ public class Table {
 
     private String name;
     private ArrayList<Column> columns;
+    private ArrayList<ForeignKey> foreignKeys;
 
-    public Table(String aName, ArrayList<Column> aColumnT) {
+    public Table(String aName, ArrayList<Column> aColumnL, ArrayList<ForeignKey> aForeignKeyL) {
         name = aName;
-        columns = aColumnT;
+        columns = aColumnL;
+        foreignKeys = aForeignKeyL;
     }
 
     public Table(String aName) {
@@ -29,22 +31,30 @@ public class Table {
         return columns;
     }
 
+    public ArrayList<ForeignKey> getForeignKeys() {
+        return foreignKeys;
+    }
+
     public void setColumns(ArrayList<Column> aColumnL) {
         columns = aColumnL;
     }
 
+    public void setForeignKeys(ArrayList<ForeignKey> aForeignKeyL) {
+        foreignKeys = aForeignKeyL;
+    }
+
     @Override
     public boolean equals(Object o) {
-        int name;
+        int result;
 
         //casting the object
         Table tab = (Table) o;
 
         //comparing
-        name = this.name.compareTo(tab.getName());
+        result = this.name.compareTo(tab.getName());
 
         //if the table names are different, return false immediately
-        if (name != 0) {
+        if (result != 0) {
             return false;
         } else {
             return true;

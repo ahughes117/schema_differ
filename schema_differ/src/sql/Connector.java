@@ -1,11 +1,9 @@
-
 package sql;
 
 /**
- * The SQL Connector Wrapper Class. 
- * Heavily Optimised (and probably tied) to MySQL
- * As JDBC supports all databases, maybe this will change in the future
- * 
+ * The SQL Connector Wrapper Class. Heavily Optimised (and probably tied) to
+ * MySQL As JDBC supports all databases, maybe this will change in the future
+ *
  * @author Alex Hughes
  */
 import java.sql.*;
@@ -78,8 +76,8 @@ public class Connector {
 
     public PreparedStatement prepareStatement(String aQuery) throws SQLException {
         PreparedStatement ps;
-        
-        if(connection.isValid(1)){
+
+        if (connection.isValid(1)) {
             ps = connection.prepareStatement(aQuery, Statement.RETURN_GENERATED_KEYS);
         } else {
             try {
@@ -89,7 +87,7 @@ public class Connector {
             }
             ps = connection.prepareStatement(aQuery, Statement.RETURN_GENERATED_KEYS);
         }
-        
+
         return ps;
     }
 
@@ -135,21 +133,25 @@ public class Connector {
     public void setSchema(String aSchema) throws SQLException {
         connection.setSchema(aSchema);
     }
-    
+
     /**
      * Returns the database's metadata
-     * 
+     *
      * @return
      * @throws SQLException
      */
     public DatabaseMetaData getMetaData() throws SQLException {
         return connection.getMetaData();
     }
-    
+
+    public String getCatalog() throws SQLException {
+        return connection.getCatalog();
+    }
+
     public String getSchema() throws SQLException {
         return connection.getSchema();
     }
-    
+
     private void printInfo() {
         System.out.println("Database Management...");
         System.out.println("Succesfully connected to: " + credentials.getUri());
