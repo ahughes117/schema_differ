@@ -37,4 +37,8 @@ I am sure that you can work your way around with Windows batch files as well, bu
 
 =============
 
-PS: TODO: compare indexes, foreign keys and all of that as well. Normally I don't index my staging database like the production one because there is no point and you can't fake the load properly. BUT, I do understand that not everyone is me and also some times it can come handy in non full database migrations, so depending on my free time, I will write functionality for it.
+Update 15/08/2017:
+
+I added basic foreign key support for performing diffs, but I haven't tested it properly yet.
+
+PS: TODO: compare indexes. Normally I don't index my staging database like the production one because there is no point and you can't fake the load properly. BUT, I do understand that not everyone is me and also some times it can come handy in non full database migrations, so depending on my free time, I will write functionality for it.
